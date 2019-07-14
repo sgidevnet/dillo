@@ -464,7 +464,11 @@ void DLItem::child_init()
    dClose(LogPipe[0]);
    dup2(LogPipe[1], 2); // stderr
    // set the locale to C for log parsing
+#ifdef setenv
    setenv("LC_ALL", "C", 1);
+#else
+   putenv("LC_ALL=C");
+#endif
    // start wget
    execvp(dl_argv[0], dl_argv);
 }
